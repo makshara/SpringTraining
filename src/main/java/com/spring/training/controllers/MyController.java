@@ -1,4 +1,4 @@
-package com.spring.training;
+package com.spring.training.controllers;
 
 
 import org.springframework.http.HttpStatus;
@@ -67,4 +67,5 @@ public class MyController {
     	return new ResponseEntity<UserHeaders>(uHeader,HttpStatus.OK);
         
     }
+    
 }
