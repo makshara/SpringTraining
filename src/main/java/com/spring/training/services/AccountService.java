@@ -9,7 +9,8 @@ import com.spring.training.entities.Customer;
 import com.spring.training.models.Person;
 import com.spring.training.models.User;
 import com.spring.training.repositories.CustomerRepository;
-import com.spring.training.repositories.JdbcUserRepository;
+import com.spring.training.repositories.UserRepository;
+import com.spring.training.util.UserOperationUtil;
 
 @Service
 public class AccountService {
@@ -17,20 +18,31 @@ public class AccountService {
 	@Autowired
 	private CustomerRepository custRepo;
 	@Autowired
-	private JdbcUserRepository jUserRepo;
+	private UserRepository jUserRepo;
 	// write a method which takes person object 
 	//and returns a person object 
 	//by appending fname,lname with "test"
 	public Person getPerson(Person fullName){
+		
+		jUserRepo.batchInsert(UserOperationUtil.userList(), 50);
+		
 		//jdbc template - user table
 		List<User> uList = jUserRepo.findAll();
-		System.out.println(uList);
 		System.out.println("User Count="+jUserRepo.count());
 		
 		System.out.println(custRepo.count());		
 		List<Customer> list= custRepo.findAll();
+		
+		Customer cust = new Customer();
+		String fname = fullName.getfName();
+		cust.setFirstName(fname);
+		String lname = fullName.getlName();
+		cust.setLastName(lname);
+		cust.setId(UserOperationUtil.getUid());
+		custRepo.save(cust);
+		
 		for(Customer customer : list) {
-			System.out.println(customer.getId()+""+customer.getFirstName() +"---- "+customer.getLastName());
+			//System.out.println(customer.getId()+"----"+customer.getFirstName() +"---- "+customer.getLastName());
 			
 		}
 		String firstName = fullName.getfName();

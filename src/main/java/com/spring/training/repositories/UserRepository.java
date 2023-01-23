@@ -8,5 +8,5 @@ public interface UserRepository {
 
 	int count();
 	List<User> findAll();
-
+	public void batchInsert(List<User> users, int batchSize);
 }
